@@ -25,6 +25,6 @@ The API is hosted on port 3000 and can be used by sending a POST request to the 
 {
   "senderName": "Example Name",
   "senderEmail": "example.email.com",
-  "message": "Hello World!",
+  "message": "Hello World!"
 }
 ```
