@@ -1,12 +1,10 @@
 import { MailerService } from "@nestjs-modules/mailer";
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { MailDataDto } from "./dto/mail-data.dto";
 
 @Injectable()
 export class AppService {
-  private readonly logger = new Logger(AppService.name);
-
   public constructor(
     private readonly mailerService: MailerService,
     private readonly config: ConfigService,
