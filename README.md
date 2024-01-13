@@ -6,7 +6,7 @@ This is the API for my personal website. It is a RESTful API built with NestJS a
 $ npm install
 ```
 
-## Running the app
+## Running
 
 Copy the `.env.example` file to `.env` and fill in the required values.
 
@@ -14,7 +14,7 @@ Copy the `.env.example` file to `.env` and fill in the required values.
 # development
 $ npm run dev
 
-# production mode
+# production
 $ npm run build
 $ npm run prod
 ```
