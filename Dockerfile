@@ -8,9 +8,9 @@ RUN npm ci
 
 COPY . .
 
+EXPOSE 3222
+
 CMD ["npm", "run", "dev"]
-
-
 
 FROM node:lts-alpine AS dependencies
 
