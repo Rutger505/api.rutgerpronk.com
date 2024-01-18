@@ -2,9 +2,9 @@ name: Build and Test Docker Image
 
 on:
   push:
-    branches: *
-  pull_requests:
-    branches: *
+    branches: '*'
+  pull_request:
+    branches: '*'
 
 jobs:
   build-and-test:
@@ -18,13 +18,13 @@ jobs:
         run: docker build . --tag api.rutgerpronk.com:$(date +%s)
 
       - name: Run Docker container
-        run: docker run --name test-container api.rutgerpronk.com$(date +%s)
+        run: docker run --name test-container api.rutgerpronk.com:$(date +%s)
 
       - name: Wait for the container to start
         run: sleep 10 # TODO test if this is enough with failing configuration
 
       - name: Check container status
-        run: |#
+        run: |
           set -euo pipefail
           
           container_status=$(docker inspect -f '{{.State.ExitCode}}' "test-container")
