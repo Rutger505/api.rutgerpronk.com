@@ -21,7 +21,7 @@ jobs:
         run: docker build . --tag api.rutgerpronk.com:${{ env.DATE_WORKFLOW }}
 
   run-image:
-    needs: checkout-build
+    needs: build-image
     runs-on: ubuntu-latest
 
     steps:
