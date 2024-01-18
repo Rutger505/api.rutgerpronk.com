@@ -10,7 +10,7 @@ env:
   DATE_WORKFLOW: ${{ github.run_number }}
 
 jobs:
-  build-image:
+  build-runnable-image:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,11 +20,6 @@ jobs:
       - name: Build Docker image
         run: docker build . --tag api.rutgerpronk.com:${{ env.DATE_WORKFLOW }}
 
-  run-image:
-    needs: build-image
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Run Docker container
         run: docker run -d --name test-container api.rutgerpronk.com:${{ env.DATE_WORKFLOW }}
 
