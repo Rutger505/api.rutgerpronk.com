@@ -32,7 +32,7 @@ jobs:
           
           container_status=$(docker inspect -f '{{.State.Status}}' "test-container")
           container_logs=$(docker logs test-container)
-          if [ "$container_status" -ne "running" ]; then
+          if [ "$container_status" != "running" ]; then
             echo "Container failed to start"
             echo $container_logs
             exit 1
