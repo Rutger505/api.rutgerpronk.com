@@ -30,12 +30,13 @@ jobs:
         run: |
           set -euo pipefail
           
-          container_status=$(docker inspect -f '{{.State.ExitCode}}' "test-container")
-          if [ "$container_status" -ne 0 ]; then
-            echo "Container failed to start with exit code $container_status"
-            docker logs test-container
+          container_status=$(docker inspect -f '{{.State.Status}}' "test-container")
+          container_logs=$(docker logs test-container)
+          if [ "$container_status" -ne "running" ]; then
+            echo "Container failed to start"
+            echo $container_logs
             exit 1
           else
             echo "Container started successfully"
-            docker logs test-container
+            echo $container_logs
           fi
