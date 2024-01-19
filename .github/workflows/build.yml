@@ -7,7 +7,7 @@ on:
     branches: '*'
 
 env:
-  DATE_WORKFLOW: ${{ github.run_number }}
+  DATE_WORKFLOW: $(date +%s)
 
 jobs:
   build-runnable-image:
