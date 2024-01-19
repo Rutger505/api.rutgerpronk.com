@@ -26,6 +26,7 @@ ENV NODE_ENV=production
 WORKDIR /app
 
 COPY . .
+
 COPY --from=dependencies /app/node_modules ./node_modules
 
 RUN npm run build
