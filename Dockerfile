@@ -26,6 +26,7 @@ ENV NODE_ENV=production
 WORKDIR /app
 
 COPY . .
+
 COPY --from=dependencies /app/node_modules ./node_modules
 
 RUN npm run build
@@ -37,8 +38,7 @@ WORKDIR /app
 # Expose the port Nest.js is running on
 EXPOSE 3222
 
-COPY --from=builder /app/dist ./
-COPY --from=builder /app/package.json /app/package-lock.json ./
+COPY --from=builder /app ./
 COPY --from=dependencies /app/node_modules ./node_modules
 CMD ["npm", "start"]
 

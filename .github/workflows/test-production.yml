@@ -6,11 +6,8 @@ on:
   pull_request:
     branches: '*'
 
-env:
-  DATE_WORKFLOW: ${{ github.run_number }}
-
 jobs:
-  build-runnable-image:
+  test-production:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,10 +15,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Docker image
-        run: docker build . --tag api.rutgerpronk.com:${{ env.DATE_WORKFLOW }}
+        run: docker build . --tag api.rutgerpronk.com:${{ github.run_number }} --target production
 
       - name: Run Docker container
-        run: docker run -d --name test-container api.rutgerpronk.com:${{ env.DATE_WORKFLOW }}
+        run: docker run -d --name test-container api.rutgerpronk.com:${{ github.run_number }}
 
       - name: Wait for the container to start
         run: sleep 15
@@ -32,7 +29,7 @@ jobs:
 
           container_status=$(docker inspect -f '{{.State.Status}}' "test-container")
           container_logs=$(docker logs test-container)
-          if [ "$container_status" != "running" ]; then
+          if [ "$container_status" != "running" ] || [[ $(echo "$container_status" | tr '[:upper:]' '[:lower:]') == *"error"* ]]; then
             echo "Container failed to start"
             echo "$container_logs"
             exit 1
