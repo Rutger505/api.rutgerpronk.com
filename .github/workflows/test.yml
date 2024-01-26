@@ -57,6 +57,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Make environment file
+        run: |
+          echo "GMAIL_USER=$GMAIL_USER" >> .env
+          echo "GMAIL_APP_PASSWORD=$GMAIL_APP_PASSWORD" >> .env
+          echo "RECIEVER_EMAIL=$RECIEVER_EMAIL" >> .env
+
       - name: Build Docker image
         run: docker build . --tag api.rutgerpronk.com:${{ github.run_number }} --target production
 
