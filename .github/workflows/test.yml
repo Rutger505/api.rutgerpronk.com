@@ -7,6 +7,10 @@ on:
 jobs:
   test-development:
     runs-on: ubuntu-latest
+    env:
+      GMAIL_USER: ${{ secrets.GMAIL_USER }}
+      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+      RECIEVER_EMAIL: ${{ secrets.RECIEVER_EMAIL }}
 
     steps:
       - name: Checkout code
@@ -38,6 +42,10 @@ jobs:
 
   test-production:
     runs-on: ubuntu-latest
+    env:
+      GMAIL_USER: ${{ secrets.GMAIL_USER }}
+      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+      RECIEVER_EMAIL: ${{ secrets.RECIEVER_EMAIL }}
 
     steps:
       - name: Checkout code
