@@ -51,6 +51,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: check if env are defined
+        run: |
+          echo $GMAIL_USER
+          echo $GMAIL_APP_PASSWORD
+          echo $RECIEVER_EMAIL
+
       - name: Build Docker image
         run: docker build . --tag api.rutgerpronk.com:${{ github.run_number }} --target production
 
