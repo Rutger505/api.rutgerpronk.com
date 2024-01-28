@@ -1,0 +1,88 @@
+name: Build and Test Docker Image
+
+on:
+  push:
+    branches: '*'
+
+jobs:
+  test-development:
+    runs-on: ubuntu-latest
+    env:
+      GMAIL_USER: ${{ secrets.GMAIL_USER }}
+      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+      RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Make environment file
+        run: |
+          echo "GMAIL_USER=$GMAIL_USER" >> .env
+          echo "GMAIL_APP_PASSWORD=$GMAIL_APP_PASSWORD" >> .env
+          echo "RECEIVER_EMAIL=$RECEIVER_EMAIL" >> .env
+
+      - name: Build Docker image
+        run: docker build . --tag api.rutgerpronk.com:${{ github.run_number }} --target development
+
+      - name: Run Docker container
+        run: docker run -d --name test-container api.rutgerpronk.com:${{ github.run_number }}
+
+      - name: Wait for the container to start
+        run: sleep 15
+
+      - name: Check container status
+        run: |
+          set -euo pipefail
+
+          container_status=$(docker inspect -f '{{.State.Status}}' "test-container")
+          container_logs=$(docker logs test-container)
+          if [ "$container_status" != "running" ] || [[ $(echo "$container_status" | tr '[:upper:]' '[:lower:]') == *"error"* ]]; then
+            echo "Container failed to start"
+            echo "$container_logs"
+            exit 1
+          else
+            echo "Container started successfully"
+            echo "$container_logs"
+          fi
+
+  test-production:
+    runs-on: ubuntu-latest
+    env:
+      GMAIL_USER: ${{ secrets.GMAIL_USER }}
+      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+      RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Make environment file
+        run: |
+          echo "GMAIL_USER=$GMAIL_USER" >> .env
+          echo "GMAIL_APP_PASSWORD=$GMAIL_APP_PASSWORD" >> .env
+          echo "RECEIVER_EMAIL=$RECEIVER_EMAIL" >> .env
+
+      - name: Build Docker image
+        run: docker build . --tag api.rutgerpronk.com:${{ github.run_number }} --target production
+
+      - name: Run Docker container
+        run: docker run -d --name test-container api.rutgerpronk.com:${{ github.run_number }}
+
+      - name: Wait for the container to start
+        run: sleep 15
+
+      - name: Check container status
+        run: |
+          set -euo pipefail
+  
+          container_status=$(docker inspect -f '{{.State.Status}}' "test-container")
+          container_logs=$(docker logs test-container)
+          if [ "$container_status" != "running" ] || [[ $(echo "$container_status" | tr '[:upper:]' '[:lower:]') == *"error"* ]]; then
+            echo "Container failed to start"
+            echo "$container_logs"
+            exit 1
+          else
+            echo "Container started successfully"
+            echo "$container_logs"
+          fi
