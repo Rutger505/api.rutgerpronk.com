@@ -9,7 +9,7 @@ async function bootstrap() {
   app.enableCors({
     origin:
       process.env.NODE_ENV === "production"
-        ? "https://rutgerpronk.com"
+        ? ["https://rutgerpronk.com", "https://rutgerpronk.nl"]
         : "http://localhost",
   });
   await app.listen(3222);
