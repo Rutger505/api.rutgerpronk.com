@@ -1,24 +1,26 @@
 # rutgerpronk.com API
 
-This is the API for my personal website. It is a RESTful API built with NestJS and NodeMailer for sending emails.
+This is the API for my portfolio website. It is a RESTful API built with NestJS and NodeMailer for sending emails.
 
 ## Installation
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Running
+### Configuration
 
 Copy the `.env.example` file to `.env` and fill in the required values.
 
+## Running
+
 ```bash
 # development
-$ npm run dev
+npm run dev
 
 # production
-$ npm run build
-$ npm run prod
+npm run build
+npm run prod
 ```
 
 ## Usage
