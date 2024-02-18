@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 
-export class MailDataDto {
+export class EmailDataDto {
   @IsNotEmpty()
   @IsString()
   public readonly senderName: string;
