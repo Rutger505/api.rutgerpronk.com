@@ -13,14 +13,20 @@ export class EmailService {
   ) {}
 
   public async sendEmail(mailData: EmailDataDto): Promise<boolean> {
+    const receiverEmail = this.config.getOrThrow<string>("RECEIVER_EMAIL");
+    const gmailUser = this.config.getOrThrow<string>("GMAIL_USER");
     let success: boolean;
 
     try {
       const result = await this.mailerService.sendMail({
-        from: mailData.senderEmail,
-        to: this.config.getOrThrow<string>("RECEIVER_EMAIL"),
-        subject: `Website message from ${mailData.senderName}`,
-        text: mailData.message,
+        from: `Website <${gmailUser}>`,
+        to: receiverEmail,
+        replyTo: mailData.senderEmail,
+        subject: `Message from ${mailData.senderName}`,
+        html: `
+          <p>${mailData.message}</p>
+          <p>Reply to: ${mailData.senderEmail}</p>
+        `,
       });
 
       success = !!result.messageId;
