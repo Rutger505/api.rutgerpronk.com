@@ -19,18 +19,18 @@ export class EmailController {
   @Post("/email")
   public async sendEmail(@Body() mailData: EmailDataDto, @Res() res: Response) {
     this.logger.log(`Received request: ${JSON.stringify(mailData)}`);
-    this.logger.log(`Sending email to ${mailData.senderEmail}`);
+    this.logger.log(`Sending email`);
 
     const succes = await this.emailService.sendEmail(mailData);
 
     if (succes) {
-      this.logger.log(`Email sent to ${mailData.senderEmail}`);
+      this.logger.log(`Email sent successfully`);
       res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
         message: "Email sent successfully",
       });
     } else {
-      this.logger.error(`Failed to send email to ${mailData.senderEmail}`);
+      this.logger.error(`Failed to send email`);
       res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         message: "Failed to send email",
