@@ -10,13 +10,13 @@ import { Response } from "express";
 import { EmailDataDto } from "./dto/email-data.dto";
 import { EmailService } from "./email.service";
 
-@Controller()
+@Controller("email")
 export class EmailController {
   private readonly logger = new Logger(EmailController.name);
 
   public constructor(private readonly emailService: EmailService) {}
 
-  @Post("/email")
+  @Post()
   public async sendEmail(@Body() mailData: EmailDataDto, @Res() res: Response) {
     this.logger.log(`Received request: ${JSON.stringify(mailData)}`);
     this.logger.log(`Sending email`);
